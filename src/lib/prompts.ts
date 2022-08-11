@@ -92,6 +92,7 @@ export default async function prompts({
   }
 
   function getScopePrompt(): Omit<Prompt, 'step' | 'totalSteps'> {
+    const bts = '';
     const name = 'scope';
     const placeholder = getPromptLocalize('scope.placeholder');
     const scopeEnum = commitlint.getScopeEnum();
@@ -145,6 +146,15 @@ export default async function prompts({
 
   const questions: Prompt[] = [
     {
+      type: PROMPT_TYPES.INPUT_BOX,
+      name: 'bts',
+      placeholder: getPromptLocalize('bts.placeholder'),
+      validate(input: string) {
+        return commitlint.lintBody(input);
+      },
+      format: lineBreakFormatter,
+    },
+    {
       type: PROMPT_TYPES.QUICK_PICK,
       name: 'type',
       placeholder: getPromptLocalize('type.placeholder'),
@@ -195,7 +205,7 @@ export default async function prompts({
       name: 'subject',
       placeholder: getPromptLocalize('subject.placeholder'),
       validate(input: string) {
-        const { type, scope, gitmoji, ci } = commitMessage;
+        const { type, scope, gitmoji, ci, bts } = commitMessage;
         const serializedSubject = serializeSubject({
           gitmoji,
           subject: input,
@@ -214,6 +224,7 @@ export default async function prompts({
 
         let headerError = commitlint.lintHeader(
           serializeHeader({
+            bts,
             type,
             scope,
             gitmoji,
