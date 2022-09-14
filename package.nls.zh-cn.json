@@ -1,5 +1,5 @@
 {
-  "extension.name": "约定式提交",
+  "extension.name": "约定式提交 with prefix",
   "extension.commands.resetGlobalState": "约定式提交: 重置全局状态",
   "extension.commands.showNewVersionNotes": "约定式提交: 显示版本提示",
   "extension.configuration.silentAutoCommit.markdownDescription": "是否需要静默自动提交。\n\n启用后，自动提交后会自动聚焦到源代码控制面板。",
