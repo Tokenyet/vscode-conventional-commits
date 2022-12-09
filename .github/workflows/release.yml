@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0
 
       - name: Setup nodejs
-        uses: actions/setup-node@v3.0.0
+        uses: actions/setup-node@v3.5.1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Setup package
         run: yarn install
@@ -34,7 +34,7 @@ jobs:
           yarn prettier --write CHANGELOG.md  --prose-wrap never --ignore-path ./gitignore
 
       - name: Get version from package.json
-        uses: actions/github-script@v6.1.0
+        uses: actions/github-script@v6.3.3
         id: version
         with:
           result-encoding: string
@@ -78,7 +78,7 @@ jobs:
 
       - name: Get changelog context
         id: changelog_reader
-        uses: mindsers/changelog-reader-action@v2.1.1
+        uses: mindsers/changelog-reader-action@v2.2.2
         with:
           version: ${{steps.version.outputs.version}}
           path: ./CHANGELOG.md

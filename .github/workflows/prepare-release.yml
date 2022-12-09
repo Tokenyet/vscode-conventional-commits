@@ -22,7 +22,7 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'prepare-release')
     steps:
       - name: Clear label
-        uses: actions/github-script@v6.1.0
+        uses: actions/github-script@v6.3.3
         env:
           NUMBER: ${{ github.event.number }}
         with:
@@ -43,15 +43,15 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'prepare-release')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.1.0
         with:
           ref: ${{ env.BASE_BRANCH }}
           fetch-depth: 0
 
       - name: Setup nodejs
-        uses: actions/setup-node@v3.0.0
+        uses: actions/setup-node@v3.5.1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Bump version
         run: |
@@ -60,7 +60,7 @@ jobs:
           npx prettier --write CHANGELOG.md  --prose-wrap never --ignore-path ./gitignore
 
       - name: Get version from package.json
-        uses: actions/github-script@v6.1.0
+        uses: actions/github-script@v6.3.3
         id: version
         with:
           result-encoding: string
@@ -84,13 +84,13 @@ jobs:
 
       - name: Get changelog context
         id: changelog-reader
-        uses: mindsers/changelog-reader-action@v2.1.1
+        uses: mindsers/changelog-reader-action@v2.2.2
         with:
           version: ${{ steps.version.outputs.version }}
           path: ./CHANGELOG.md
 
       - name: Prepare release PR
-        uses: actions/github-script@v6.1.0
+        uses: actions/github-script@v6.3.3
         env:
           TITLE: ${{ steps.version.outputs.title }}
           CHANGELOG: ${{ steps.changelog-reader.outputs.changes }}
